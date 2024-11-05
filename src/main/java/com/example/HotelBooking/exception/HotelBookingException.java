@@ -19,7 +19,8 @@ public class HotelBookingException extends  RuntimeException{
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public List<String> getError() {
+        return error;
     }
 }
+

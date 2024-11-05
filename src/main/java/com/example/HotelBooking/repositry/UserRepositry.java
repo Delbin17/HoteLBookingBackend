@@ -1,16 +1,13 @@
 package com.example.HotelBooking.repositry;
-
-
 import com.example.HotelBooking.entity.UserData;
-import com.example.HotelBooking.model.DataModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-@Repository
-public interface UserRepositry  extends JpaRepository<UserData ,Integer> {
+public interface UserRepositry extends JpaRepository<UserData,Long> {
 
-
-
+    @Query("SELECT c FROM UserData c WHERE c.email = :email AND c.password = :password ")
+    UserData checkValidLogin(@Param("email") String gmail, @Param("password") String password);
 
 
 }

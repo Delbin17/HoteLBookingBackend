@@ -1,8 +1,6 @@
 package com.example.HotelBooking.model;
 
-import lombok.Data;
 
-@Data
 public class DataModel {
 
 
@@ -10,24 +8,23 @@ public class DataModel {
     private String lastName;
     private String email;
     private String address;
-    private String adharNumber;
+    private String aadharNumber;
     private String mobile;
-    private String createPassword;
-    private String confirmPassword;
+    private String password;
+
 
 
     public DataModel() {
     }
 
-    public DataModel(String firstName, String lastName, String email, String address, String adharNumber, String mobile, String createPassword, String confirmPassword) {
+    public DataModel(String firstName, String lastName, String email, String address, String aadharNumber, String mobile, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
-        this.adharNumber = adharNumber;
+        this.aadharNumber = aadharNumber;
         this.mobile = mobile;
-        this.createPassword = createPassword;
-        this.confirmPassword = confirmPassword;
+       this.password=password;
     }
 
     public String getFirstName() {
@@ -50,6 +47,22 @@ public class DataModel {
         return email;
     }
 
+    public String getAadharNumber() {
+        return aadharNumber;
+    }
+
+    public void setAadharNumber(String aadharNumber) {
+        this.aadharNumber = aadharNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -62,13 +75,7 @@ public class DataModel {
         this.address = address;
     }
 
-    public String getAdharNumber() {
-        return adharNumber;
-    }
 
-    public void setAdharNumber(String adharNumber) {
-        this.adharNumber = adharNumber;
-    }
 
     public String getMobile() {
         return mobile;
@@ -78,21 +85,7 @@ public class DataModel {
         this.mobile = mobile;
     }
 
-    public String getCreatePassword() {
-        return createPassword;
-    }
 
-    public void setCreatePassword(String createPassword) {
-        this.createPassword = createPassword;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 }
 
 

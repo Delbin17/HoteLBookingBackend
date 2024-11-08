@@ -22,7 +22,7 @@ public class UserLoginService {
         error.add("invalid mail or password");
 
         if(userData == null ){
-            throw new HotelBookingException(error,"invalid mail or password");
+            throw new HotelBookingException("invalid mail or password");
         }
         return userData;
     }

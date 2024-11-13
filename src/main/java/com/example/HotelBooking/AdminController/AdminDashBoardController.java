@@ -25,15 +25,38 @@ public class AdminDashBoardController {
         return adminDashboardService.readAdminAllData();
     }
 
-    //Decline
-    @DeleteMapping("decline/{id}")
-    public ResponseEntity<?>declineRequest(@PathVariable("id") Long id){
+    //Delete
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?>deleteRequest(@PathVariable("id") Long id){
         try {
-            adminDashboardService.declineHotelAdminRequest(id);
+            adminDashboardService.deleteHotelAdminRequest(id);
             return ResponseHandle.registrationResponse(HttpStatus.OK, "success",null);
         }catch (HotelBookingException h){
             return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "failed",h.getError());
         }
 
+    }
+
+    //Approve
+
+    @PostMapping("approve/{id}")
+    public ResponseEntity<?>approveRequest(@PathVariable("id") Long id){
+        try{
+            adminDashboardService.approveRequest(id);
+            return ResponseHandle.registrationResponse(HttpStatus.OK, "success",null);
+        }catch (HotelBookingException h){
+            return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "failed",h.getError());
+        }
+    }
+
+    //Decline request
+    @PostMapping("decline/{id}")
+    public ResponseEntity<?>declineRequest(@PathVariable("id") Long id){
+        try{
+            adminDashboardService.declineRequest(id);
+            return ResponseHandle.registrationResponse(HttpStatus.OK, "success",null);
+        }catch (HotelBookingException h){
+            return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "failed",h.getError());
+        }
     }
 }

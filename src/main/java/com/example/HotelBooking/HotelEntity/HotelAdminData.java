@@ -30,6 +30,9 @@ public class HotelAdminData {
     @Column(name = "password")
     private  String password;
 
+    @Column(name = "status")
+    private Boolean status;
+
     public HotelAdminData(String organiserName, String email, String phone, String registerId, String address,String password) {
         this.organiserName = organiserName;
         this.email = email;
@@ -40,6 +43,14 @@ public class HotelAdminData {
     }
 
     public HotelAdminData() {
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public Long getId() {

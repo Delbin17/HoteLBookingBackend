@@ -18,12 +18,19 @@ public class HotelAdminLoginService {
     public HotelAdminData loginHotelAdmin(HotelAdminLoginModel hotelAdminLoginModel)  throws HotelBookingException {
 
         ArrayList<String>error=new ArrayList<>();
+        ArrayList<String>errors=new ArrayList<>();
         error.add("invalid username or Password");
-        HotelAdminData hotelAdminData=hotelAdminRepository.loginAdminHotel(hotelAdminLoginModel.getEmail(),hotelAdminLoginModel.getPassword());
+        errors.add("User Request Not Accepted. Please wait...Until Admin Accept Request");
 
+        HotelAdminData hotelAdminData=hotelAdminRepository.loginAdminHotel(hotelAdminLoginModel.getEmail(),hotelAdminLoginModel.getPassword());
         if(hotelAdminData == null){
-            throw new HotelBookingException(error,"");
+            throw new HotelBookingException(error,"invalid Login");
         }
-        return hotelAdminData;
+
+        if(!hotelAdminData.getStatus()){
+            throw new HotelBookingException(errors,"Request Pending");
+       }
+
+       return hotelAdminData;
     }
 }

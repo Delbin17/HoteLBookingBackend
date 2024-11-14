@@ -6,7 +6,7 @@ public class HotelBookingException extends  RuntimeException{
     List<String>error;
     String message;
 
-    public HotelBookingException(String message) {
+    public HotelBookingException(List<String>error,String message) {
         this.error = error;
         this.message = message;
     }

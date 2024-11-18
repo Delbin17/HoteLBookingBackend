@@ -33,16 +33,22 @@ public class HotelAdminData {
     @Column(name = "status")
     private Boolean status;
 
-    public HotelAdminData(String organiserName, String email, String phone, String registerId, String address,String password) {
+    @Column(name="profile")
+    private String profile;
+
+
+    public HotelAdminData(String organiserName, String email, String phone, String registerId, String address,String password,String profile) {
         this.organiserName = organiserName;
         this.email = email;
         this.phone = phone;
         this.registerId = registerId;
         this.address = address;
         this.password=password;
-    }
+        this.profile=profile;
 
+    }
     public HotelAdminData() {
+
     }
 
     public Boolean getStatus() {
@@ -108,4 +114,8 @@ public class HotelAdminData {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getProfile() { return profile;}
+
+    public void setProfile(String filePath) {this.profile = filePath;}
 }

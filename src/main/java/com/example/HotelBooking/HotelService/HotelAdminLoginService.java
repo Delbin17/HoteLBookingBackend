@@ -25,7 +25,10 @@ public class HotelAdminLoginService {
         HotelAdminData hotelAdminData=hotelAdminRepository.loginAdminHotel(hotelAdminLoginModel.getEmail(),hotelAdminLoginModel.getPassword());
         if(hotelAdminData == null){
             throw new HotelBookingException(error,"invalid Login");
+
         }
+
+
 
         if(!hotelAdminData.getStatus()){
             throw new HotelBookingException(errors,"Request Pending");

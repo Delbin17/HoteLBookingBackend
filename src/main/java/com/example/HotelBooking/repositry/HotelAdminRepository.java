@@ -11,4 +11,6 @@ public interface HotelAdminRepository extends JpaRepository<HotelAdminData,Long>
 
     @Query("SELECT c FROM HotelAdminData c WHERE c.email = :email AND c.password = :password")
     HotelAdminData loginAdminHotel(@Param("email") String email,@Param("password") String password);
+
+    Boolean existsByemail(String email);
 }

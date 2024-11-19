@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-
+import java.util.List;
 
 @Service
 public class HotelAdminRegisterService {
@@ -22,33 +22,32 @@ public class HotelAdminRegisterService {
     @Autowired
     private HotelAdminRepository hotelAdminRepository;
 
-    public void registerHotelAdmin(MultipartFile file,String organiserName, String email,String phone,String registerId,String address,String password) throws HotelBookingException, IOException {
+    public void registerHotelAdmin(MultipartFile file, String organiserName, String email, String phone, String registerId, String address, String password) throws HotelBookingException, IOException {
         String currentPath = Paths.get("").toAbsolutePath().toString();
+        ArrayList<String> error = new ArrayList<>();
+        error.add("This account is already registered");
 
-        ArrayList<String> error=new ArrayList<>();
-        error.add("this account is already registered");
-
+        // Check if the email is already in use
+        if (hotelAdminRepository.existsByEmail(email)) {
+            throw new HotelBookingException(error, "Invalid: Email already exists in the system.");
+        }
 
         File folder = new File(currentPath + "/profile_images");
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        HotelAdminData hotel=new HotelAdminData();
-        if(hotelAdminRepository.existsByemail( hotel.getEmail())){
 
-            throw  new HotelBookingException(error,"in valid");
+        if (file == null || file.isEmpty()) {
+            throw new HotelBookingException(new ArrayList<>(List.of("Invalid file")), "File is empty or missing");
         }
 
-        String fileName = file.getOriginalFilename(); // Get the original file name
-        Path destination = Paths.get(currentPath + "/profile_images", fileName); // Define the destination path
-        Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING); // Save the file
+        // Save the file to the defined path
+        String fileName = file.getOriginalFilename();
+        Path destination = Paths.get(currentPath + "/profile_images", fileName);
+        Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
-
-
-        HotelAdminData hotelAdminData=new HotelAdminData();
-
+        HotelAdminData hotelAdminData = new HotelAdminData();
         hotelAdminData.setProfile("images/" + fileName);
-
         hotelAdminData.setOrganiserName(organiserName);
         hotelAdminData.setEmail(email);
         hotelAdminData.setPhone(phone);
@@ -58,5 +57,4 @@ public class HotelAdminRegisterService {
 
         hotelAdminRepository.save(hotelAdminData);
     }
-
 }

@@ -28,8 +28,6 @@ public class HotelAdminLoginService {
 
         }
 
-
-
         if(!hotelAdminData.getStatus()){
             throw new HotelBookingException(errors,"Request Pending");
        }

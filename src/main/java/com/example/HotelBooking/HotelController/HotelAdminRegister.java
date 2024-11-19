@@ -39,6 +39,7 @@ public class HotelAdminRegister {
           return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "Failed", h.getError());
 
       } catch (IOException e) {
+
           throw new RuntimeException(e);
       }
 

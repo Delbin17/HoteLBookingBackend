@@ -38,7 +38,7 @@ public class HotelAdminRegisterService {
             throw new HotelBookingException(error, "Invalid: Email already exists in the system.");
         }
 
-        File folder = new File(currentPath + "/profile_images");
+        File folder = new File(currentPath + "/images");
         if (!folder.exists()) {
             folder.mkdirs();
         }
@@ -49,11 +49,11 @@ public class HotelAdminRegisterService {
 
         // Save the file to the defined path
         String fileName = file.getOriginalFilename();
-        Path destination = Paths.get(currentPath + "/profile_images", fileName);
+        Path destination = Paths.get(currentPath + "/images", fileName);
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
         HotelAdminData hotelAdminData = new HotelAdminData();
-        hotelAdminData.setProfile("images/" + fileName);
+        hotelAdminData.setProfile("/images" + fileName);
         hotelAdminData.setOrganiserName(organiserName);
         hotelAdminData.setEmail(email);
         hotelAdminData.setPhone(phone);

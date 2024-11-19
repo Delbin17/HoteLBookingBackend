@@ -31,9 +31,10 @@ public class HotelAdminRegister {
 
       try{
 
-          hotelAdminRegisterService.registerHotelAdmin(file, organiserName,email,registerId,address,password,phone);
+          hotelAdminRegisterService.registerHotelAdmin(file, organiserName, email, phone, registerId, address, password);
 
-            return ResponseHandle.registrationResponse(HttpStatus.OK, "Success", null);
+
+          return ResponseHandle.registrationResponse(HttpStatus.OK, "Success", null);
 
         } catch (HotelBookingException h) {
           return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "Failed", h.getError());

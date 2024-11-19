@@ -23,6 +23,12 @@ public class HotelAdminRegisterService {
     private HotelAdminRepository hotelAdminRepository;
 
     public void registerHotelAdmin(MultipartFile file, String organiserName, String email, String phone, String registerId, String address, String password) throws HotelBookingException, IOException {
+
+        System.out.println("Organiser Name: " + organiserName);
+        System.out.println("Email: " + email);
+        System.out.println("Phone: " + phone);
+        System.out.println("Address: " + address);
+        System.out.println("Password: " + password);
         String currentPath = Paths.get("").toAbsolutePath().toString();
         ArrayList<String> error = new ArrayList<>();
         error.add("This account is already registered");

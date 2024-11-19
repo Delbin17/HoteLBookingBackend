@@ -99,8 +99,7 @@ public class HotelAdminData {
         this.phone = phone;
     }
 
-    public String getRegisterId() {
-        return registerId;
+    public String getRegisterId() { return registerId;
     }
 
     public void setRegisterId(String registerId) {

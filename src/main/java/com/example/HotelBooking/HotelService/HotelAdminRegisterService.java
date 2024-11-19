@@ -34,18 +34,10 @@ public class HotelAdminRegisterService {
             folder.mkdirs();
         }
         HotelAdminData hotel=new HotelAdminData();
-        if(!hotelAdminRepository.existsByemail( hotel.getEmail())){
+        if(hotelAdminRepository.existsByemail( hotel.getEmail())){
 
             throw  new HotelBookingException(error,"in valid");
         }
-
-
-
-
-
-
-
-
 
         String fileName = file.getOriginalFilename(); // Get the original file name
         Path destination = Paths.get(currentPath + "/profile_images", fileName); // Define the destination path
@@ -64,11 +56,7 @@ public class HotelAdminRegisterService {
         hotelAdminData.setAddress(address);
         hotelAdminData.setPassword(password);
 
-
-
-
         hotelAdminRepository.save(hotelAdminData);
     }
-
 
 }

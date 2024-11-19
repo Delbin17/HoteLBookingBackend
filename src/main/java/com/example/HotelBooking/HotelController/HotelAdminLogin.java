@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/hotelAdmin")
 @CrossOrigin
@@ -23,9 +25,11 @@ public class HotelAdminLogin {
     public ResponseEntity<?>hotelAdminLogin(@RequestBody HotelAdminLoginModel hotelAdminLoginModel){
 
 try{
-   hotelAdminLoginService.loginHotelAdmin(hotelAdminLoginModel);
+       HotelAdminData hotelAdminData= hotelAdminLoginService.loginHotelAdmin(hotelAdminLoginModel);
 
-    return ResponseHandle.registrationResponse(HttpStatus.OK, "success",null);
+    ArrayList<String> id = new ArrayList<>();
+    id.add(hotelAdminData.getId().toString());
+    return ResponseHandle.registrationResponse(HttpStatus.OK, "success",id);
 }catch (HotelBookingException h){
     return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "Failed",h.getError());
 }

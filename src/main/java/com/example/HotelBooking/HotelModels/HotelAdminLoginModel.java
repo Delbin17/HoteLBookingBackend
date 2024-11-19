@@ -10,12 +10,17 @@ public class HotelAdminLoginModel {
         this.password = password;
     }
 
+
     public HotelAdminLoginModel() {
+
     }
 
     public String getEmail() {
         return email;
     }
+
+
+
 
     public void setEmail(String email) {
         this.email = email;

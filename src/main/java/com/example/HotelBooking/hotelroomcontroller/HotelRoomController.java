@@ -23,7 +23,7 @@ public class HotelRoomController {
     private HotelRoomService roomService;
 
     @PostMapping("/add")
-    public HotelRoomDetails addRoom(
+    public  ResponseEntity<Object> addRoom(
             @RequestParam("roomNumber") String roomNumber,
             @RequestParam("floor") String floor,
             @RequestParam("roomStatus") String roomStatus,
@@ -42,11 +42,15 @@ public class HotelRoomController {
         room.setDescription(description);
         room.setFacilities(facilities);
 
-        // Convert MultipartFile list to image paths or store as needed
         List<String> imagePaths = roomService.storeImages(images);
         room.setImages(imagePaths);
+        try {
+            roomService.addRoom(room);
+            return ResponseHandle.registrationResponse(HttpStatus.OK, "room is registered", null);
+        } catch (HotelBookingException e) {
+            return  ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST," already register in this room id",e.getError());
 
-        return roomService.addRoom(room);
+        }
     }
 
     @GetMapping("/all")

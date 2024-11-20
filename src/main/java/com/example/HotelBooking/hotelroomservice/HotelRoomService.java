@@ -41,10 +41,20 @@ public class HotelRoomService {
     }
 
     public HotelRoomDetails addRoom(HotelRoomDetails room) {
-        return roomRepository.save(room);
+
+        if (!roomRepository.existsByRoomId(room.getRoomId())) {
+            List<String> error = new ArrayList<>();
+            error.add("this room is alreday registered");
+
+            throw new HotelBookingException(error, "alreday registered");
+        }
+       return  roomRepository.save(room);
+
     }
 
     public List<HotelRoomDetails> getAllRooms() {
+
+
         return roomRepository.findAll();
     }
 

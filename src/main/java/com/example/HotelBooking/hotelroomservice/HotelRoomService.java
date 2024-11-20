@@ -1,72 +1,81 @@
-//package com.example.HotelBooking.hotelroomservice;
-//
-//
-//import com.example.HotelBooking.hotelroomentity.HotelRoomDetails;
-//import com.example.HotelBooking.hotelroomentity.HotelRoomImages;
-//import com.example.HotelBooking.repositry.HotelRoomImagesRepository;
-//import com.example.HotelBooking.repositry.HotelRoomRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-//import java.nio.file.StandardCopyOption;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@Service
-//public class HotelroomService {
-//
-//    @Autowired
-//    HotelRoomImagesRepository hotelRoomImagesRepository;
-//
-//    @Autowired
-//    HotelRoomRepository hotelRoomRepository;
-//
-//
-//    public HotelRoomDetails addRoomWithImages(HotelRoomDetails roomDetails, List<MultipartFile> files) {
-//        List<HotelRoomImages> roomImagesList = new ArrayList<>();
-//
-//
-//        String currentPath = Paths.get("").toAbsolutePath().toString();
-//        File folder = new File(currentPath + "/images");
-//        if (!folder.exists()) {
-//            folder.mkdirs();
-//
-//
-//        }
-//
-//
-//        for (MultipartFile file : files) {
-//            try {
-//                // Get the file name and define the destination path
-//                String fileName = file.getOriginalFilename();
-//                Path destination = Paths.get(currentPath + "/images", fileName);
-//
-//                // Copy the file to the server's folder
-//                Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
-//
-//                // Create and add RoomImages object
-//                HotelRoomImages roomImage = new HotelRoomImages();
-//                roomImage.setImagePath("images/" + fileName);
-//                roomImage.setRoomDetails(roomDetails);
-//                roomImagesList.add(roomImage);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                throw new RuntimeException("Failed to save image: " + file.getOriginalFilename(), e);
-//            }
-//        }
-//
-//        HotelRoomDetails savedhotelRoomDetailss = hotelRoomRepository.save(roomDetails);
-//
-//
-//        hotelRoomImagesRepository.saveAll(roomImagesList);
-//
-//        return savedhotelRoomDetailss;
-//    }
-//}
+package com.example.HotelBooking.hotelroomservice;
+
+import com.example.HotelBooking.exception.HotelBookingException;
+import com.example.HotelBooking.hotelroomentity.HotelRoomDetails;
+import com.example.HotelBooking.repositry.HotelRoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class HotelRoomService {
+
+    @Autowired
+    HotelRoomRepository roomRepository;
+
+
+    private static final String IMAGE_DIRECTORY = "images/";
+
+    public List<String> storeImages(List<MultipartFile> images) throws IOException {
+        List<String> imagePaths = new ArrayList<>();
+        for (MultipartFile image : images) {
+            if (!image.isEmpty()) {
+                String imagePath = IMAGE_DIRECTORY + image.getOriginalFilename();
+                Path path = Paths.get(imagePath);
+                Files.createDirectories(path.getParent()); // Ensure directories exist
+                Files.write(path, image.getBytes());
+                imagePaths.add(imagePath);
+            }
+        }
+        return imagePaths;
+    }
+
+    public HotelRoomDetails addRoom(HotelRoomDetails room) {
+        return roomRepository.save(room);
+    }
+
+    public List<HotelRoomDetails> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
+    public Optional<HotelRoomDetails> getRoomById(Long roomId) {
+        return roomRepository.findById(roomId);
+    }
+
+    public HotelRoomDetails updateRoom(Long roomId, HotelRoomDetails roomDetails) {
+        HotelRoomDetails room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
+        room.setRoomNumber(roomDetails.getRoomNumber());
+        room.setFloor(roomDetails.getFloor());
+        room.setRoomStatus(roomDetails.getRoomStatus());
+        room.setType(roomDetails.getType());
+        room.setGuestLimit(roomDetails.getGuestLimit());
+        room.setDescription(roomDetails.getDescription());
+        room.setFacilities(roomDetails.getFacilities());
+        room.setImages(roomDetails.getImages());
+        return roomRepository.save(room);
+    }
+
+    public void deleteRoom(Long roomId) {
+
+        if (!roomRepository.existsByRoomId(roomId)) {
+            List<String> errors = new ArrayList<>();
+            errors.add("Invalid room number: " + roomId);
+            throw new HotelBookingException(errors, "This room is not yet registered.");
+        }
+
+        roomRepository.deleteById(roomId);
+    }
+    }
+
+

@@ -43,7 +43,6 @@ public class HotelAdminRegister {
 
           throw new RuntimeException(e);
       }
-      //bjsabdjsadjhasj ajdab
 
 
     }

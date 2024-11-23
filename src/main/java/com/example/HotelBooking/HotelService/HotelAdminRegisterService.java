@@ -29,7 +29,7 @@ public class HotelAdminRegisterService {
         System.out.println("Phone: " + phone);
         System.out.println("Address: " + address);
         System.out.println("Password: " + password);
-        String currentPath = Paths.get("").toAbsolutePath().toString();
+
         ArrayList<String> error = new ArrayList<>();
         error.add("This account is already registered");
 
@@ -38,7 +38,10 @@ public class HotelAdminRegisterService {
             throw new HotelBookingException(error, "Invalid: Email already exists in the system.");
         }
 
-        File folder = new File(currentPath + "/images");
+        // Define the path for storing images
+        String resourcePath = Paths.get("src/main/resources/static/images").toAbsolutePath().toString();
+        File folder = new File(resourcePath);
+
         if (!folder.exists()) {
             folder.mkdirs();
         }
@@ -47,13 +50,14 @@ public class HotelAdminRegisterService {
             throw new HotelBookingException(new ArrayList<>(List.of("Invalid file")), "File is empty or missing");
         }
 
-        // Save the file to the defined path
-        String fileName = file.getOriginalFilename();
-        Path destination = Paths.get(currentPath + "/images", fileName);
+        // Sanitize the file name (replace spaces with underscores)
+        String sanitizedFileName = file.getOriginalFilename().replaceAll("\\s+", "_");
+        Path destination = Paths.get(resourcePath, sanitizedFileName);
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
+        // Save the data in the database
         HotelAdminData hotelAdminData = new HotelAdminData();
-        hotelAdminData.setProfile("/images" + fileName);
+        hotelAdminData.setProfile("/images/" + sanitizedFileName); // Set relative path for the frontend
         hotelAdminData.setOrganiserName(organiserName);
         hotelAdminData.setEmail(email);
         hotelAdminData.setPhone(phone);

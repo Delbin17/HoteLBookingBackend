@@ -16,11 +16,27 @@ public class AdminDashboardService {
     @Autowired
     HotelAdminRepository hotelAdminRepository;
 
-    public List<HotelAdminData> readAdminAllData() {
-        return hotelAdminRepository.findAll();
+    public List<HotelAdminData> readAdminAllData()
+    {
+       List<HotelAdminData> hotelAdminData = hotelAdminRepository.findAll();
+
+        for (int i = 0; i < hotelAdminData.size(); i++) {
+            for (int j = 0; j <  hotelAdminData.size()-i-1; j++) {
+                if(hotelAdminData.get(j).getId().compareTo(hotelAdminData.get(j+1).getId())<0){
+                    HotelAdminData temp = hotelAdminData.get(j);
+                    hotelAdminData.set(j,hotelAdminData.get(j+1));
+                    hotelAdminData.set(j+1,temp);
+
+                }
+
+            }
+        }
+
+        return hotelAdminData;
     }
 
     public void deleteHotelAdminRequest(Long id) {
+
         hotelAdminRepository.deleteById(id);
     }
 

@@ -53,7 +53,7 @@ public class HotelAdminRegisterService {
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
         HotelAdminData hotelAdminData = new HotelAdminData();
-        hotelAdminData.setProfile("/images/" + fileName);
+        hotelAdminData.setProfile("/images" + fileName);
         hotelAdminData.setOrganiserName(organiserName);
         hotelAdminData.setEmail(email);
         hotelAdminData.setPhone(phone);

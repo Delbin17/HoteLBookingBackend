@@ -4,8 +4,6 @@ import com.example.HotelBooking.exception.HotelBookingException;
 import com.example.HotelBooking.hotelroomentity.HotelRoomDetails;
 import com.example.HotelBooking.repositry.HotelRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +30,7 @@ public class HotelRoomService {
             if (!image.isEmpty()) {
                 String imagePath = IMAGE_DIRECTORY + image.getOriginalFilename();
                 Path path = Paths.get(imagePath);
-                Files.createDirectories(path.getParent()); // Ensure directories exist
+                Files.createDirectories(path.getParent());
                 Files.write(path, image.getBytes());
                 imagePaths.add(imagePath);
             }
@@ -42,7 +40,7 @@ public class HotelRoomService {
 
     public HotelRoomDetails addRoom(HotelRoomDetails room) {
 
-        if (!roomRepository.existsByRoomId(room.getRoomId())) {
+        if (roomRepository.existsByRoomNumber(room.getRoomNumber())) {
             List<String> error = new ArrayList<>();
             error.add("this room is alreday registered");
 
@@ -62,7 +60,7 @@ public class HotelRoomService {
         return roomRepository.findById(roomId);
     }
 
-    public HotelRoomDetails updateRoom(Long roomId, HotelRoomDetails roomDetails) {
+    public HotelRoomDetails updateRoom(Long roomId, HotelRoomDetails roomDetails)  {
         HotelRoomDetails room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
         room.setRoomNumber(roomDetails.getRoomNumber());
@@ -72,13 +70,14 @@ public class HotelRoomService {
         room.setGuestLimit(roomDetails.getGuestLimit());
         room.setDescription(roomDetails.getDescription());
         room.setFacilities(roomDetails.getFacilities());
+        room.getImages().clear();
         room.setImages(roomDetails.getImages());
         return roomRepository.save(room);
     }
 
     public void deleteRoom(Long roomId) {
 
-        if (!roomRepository.existsByRoomId(roomId)) {
+        if (!roomRepository.existsById(roomId)) {
             List<String> errors = new ArrayList<>();
             errors.add("Invalid room number: " + roomId);
             throw new HotelBookingException(errors, "This room is not yet registered.");

@@ -1,42 +1,62 @@
 package com.example.HotelBooking.hotelroomentity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Entity
-@Table(name = "rooms")
+@Table(name = "Hotel_rooms")
 public class HotelRoomDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 
-    @Column(nullable = false)
+    @Column(name = "roomNumber", nullable = false)
+    @NotEmpty
     private String roomNumber;
 
+
+    @Column(name = "floor", nullable = false)
+    @NotEmpty
+    @Size( min = 1, message = "floor cannot be empty")
     private String floor;
 
-    @Column(nullable = false)
+
+    @Column(name = "roomStatus", nullable = false)
+    @NotEmpty
+    @Size( min = 3, message = "should be atleat one word")
+
+
+
     private String roomStatus;
+
+
+    @Column(name = "type", nullable = false)
+
 
     private String type;
 
+    @Column(name = "guestLimit",nullable = false)
     private Integer guestLimit;
 
-    @Column(length = 1000)
+    @Column(name = "description", length = 200)
     private String description;
 
-    @Column(length = 1000)
+
+    @Column(name = "facilities", length = 1000)
+
     private String facilities;
 
     @ElementCollection
-    @CollectionTable(name = "room_images", joinColumns = @JoinColumn(name = "room_id"))
+    @CollectionTable(name = "room_image", joinColumns = @JoinColumn(name = "room_id"))
+
     @Column(name = "image_path")
+    private List<String> images;
 
-    private List<String> images; // Stores paths/URLs to images
-
-    // Getters and Setters
 
     public Long getRoomId() {
         return roomId;

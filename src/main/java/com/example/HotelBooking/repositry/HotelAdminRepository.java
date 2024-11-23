@@ -14,4 +14,9 @@ public interface HotelAdminRepository extends JpaRepository<HotelAdminData,Long>
 
     boolean existsByEmail(String email);
 
+
+
+
+
+
 }

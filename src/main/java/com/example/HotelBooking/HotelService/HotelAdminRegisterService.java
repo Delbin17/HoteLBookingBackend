@@ -30,7 +30,8 @@ public class HotelAdminRegisterService {
         System.out.println("Phone: " + phone);
         System.out.println("Address: " + address);
         System.out.println("Password: " + password);
-        String currentPath = Paths.get("").toAbsolutePath().toString();
+
+        String resourcesPath = "src/main/resources/static/images"; // Resources directory path
         ArrayList<String> error = new ArrayList<>();
         error.add("This account is already registered");
 
@@ -39,7 +40,7 @@ public class HotelAdminRegisterService {
             throw new HotelBookingException(error, "Invalid: Email already exists in the system.");
         }
 
-        File folder = new File(currentPath + "/images");
+        File folder = new File(resourcesPath);
         if (!folder.exists()) {
             folder.mkdirs();
         }
@@ -48,13 +49,18 @@ public class HotelAdminRegisterService {
             throw new HotelBookingException(new ArrayList<>(List.of("Invalid file")), "File is empty or missing");
         }
 
-        // Save the file to the defined path
-        String fileName = file.getOriginalFilename();
-        Path destination = Paths.get(currentPath + "/images", fileName);
+        // Sanitize the filename by replacing spaces with underscores
+        String originalFileName = file.getOriginalFilename();
+        if (originalFileName == null) {
+            throw new HotelBookingException(new ArrayList<>(List.of("Invalid file name")), "File name is missing");
+        }
+
+        String sanitizedFileName = originalFileName.replaceAll("\\s+", "_"); // Replace spaces with underscores
+        Path destination = Paths.get(resourcesPath, sanitizedFileName);
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
         HotelAdminData hotelAdminData = new HotelAdminData();
-        hotelAdminData.setProfile("/images" + fileName);
+        hotelAdminData.setProfile("/images/" + sanitizedFileName); // Update the path to be relative to static
         hotelAdminData.setOrganiserName(organiserName);
         hotelAdminData.setEmail(email);
         hotelAdminData.setPhone(phone);
@@ -65,4 +71,5 @@ public class HotelAdminRegisterService {
 
         hotelAdminRepository.save(hotelAdminData);
     }
+
 }

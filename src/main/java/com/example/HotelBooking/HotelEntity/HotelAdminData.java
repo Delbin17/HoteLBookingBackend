@@ -3,6 +3,8 @@ package com.example.HotelBooking.HotelEntity;
 import jakarta.persistence.*;
 import org.springframework.data.repository.cdi.Eager;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "hotel_admin_data")
 public class HotelAdminData {
@@ -36,17 +38,30 @@ public class HotelAdminData {
     @Column(name="profile")
     private String profile;
 
+    @Column(name = "date")
+    private LocalDate localDate;
 
-    public HotelAdminData(String organiserName, String email, String phone, String registerId, String address,String password,String profile) {
+
+    public HotelAdminData(String organiserName, String email, String phone, String registerId, String address, String password, Boolean status, String profile, LocalDate localDate) {
         this.organiserName = organiserName;
         this.email = email;
         this.phone = phone;
         this.registerId = registerId;
         this.address = address;
-        this.password=password;
-        this.profile=profile;
-
+        this.password = password;
+        this.status = status;
+        this.profile = profile;
+        this.localDate = localDate;
     }
+
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
+
     public HotelAdminData() {
 
     }

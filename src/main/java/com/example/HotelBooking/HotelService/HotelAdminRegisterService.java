@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,7 @@ public class HotelAdminRegisterService {
         hotelAdminData.setRegisterId(registerId);
         hotelAdminData.setAddress(address);
         hotelAdminData.setPassword(password);
+        hotelAdminData.setLocalDate(LocalDate.now());
 
         hotelAdminRepository.save(hotelAdminData);
     }

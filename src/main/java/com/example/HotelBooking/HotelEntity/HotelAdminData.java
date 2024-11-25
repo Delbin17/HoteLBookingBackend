@@ -42,6 +42,7 @@ public class HotelAdminData {
     private LocalDate localDate;
 
 
+
     public HotelAdminData(String organiserName, String email, String phone, String registerId, String address, String password, Boolean status, String profile, LocalDate localDate) {
         this.organiserName = organiserName;
         this.email = email;

@@ -61,17 +61,31 @@ public class HotelRoomService {
     }
 
     public HotelRoomDetails updateRoom(Long roomId, HotelRoomDetails roomDetails)  {
+
+
         HotelRoomDetails room = roomRepository.findById(roomId)
+
+
                 .orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
+
         room.setRoomNumber(roomDetails.getRoomNumber());
+
         room.setFloor(roomDetails.getFloor());
+
         room.setRoomStatus(roomDetails.getRoomStatus());
+
         room.setType(roomDetails.getType());
+
         room.setGuestLimit(roomDetails.getGuestLimit());
+
         room.setDescription(roomDetails.getDescription());
+
         room.setFacilities(roomDetails.getFacilities());
+
         room.getImages().clear();
+
         room.setImages(roomDetails.getImages());
+
         return roomRepository.save(room);
     }
 

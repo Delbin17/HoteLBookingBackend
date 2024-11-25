@@ -72,7 +72,7 @@ public class HotelRoomController {
                                        @RequestParam("guestLimit") Integer guestLimit,
                                        @RequestParam("description") String description,
                                        @RequestParam("facilities") String facilities,
-                                       @RequestParam("images") List<MultipartFile> images) throws HotelBookingException {
+                                       @RequestParam("images") List<MultipartFile> images) throws HotelBookingException, IOException {
         HotelRoomDetails room = new HotelRoomDetails();
         room.setRoomNumber(roomNumber);
         room.setFloor(floor);
@@ -81,6 +81,10 @@ public class HotelRoomController {
         room.setGuestLimit(guestLimit);
         room.setDescription(description);
         room.setFacilities(facilities);
+
+        List<String> imagePaths = roomService.storeImages(images);
+        room.setImages(imagePaths);
+
         return roomService.updateRoom(roomId,room );
     }
 

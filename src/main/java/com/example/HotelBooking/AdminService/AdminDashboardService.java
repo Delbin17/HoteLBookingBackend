@@ -26,7 +26,6 @@ public class AdminDashboardService {
                     HotelAdminData temp = hotelAdminData.get(j);
                     hotelAdminData.set(j,hotelAdminData.get(j+1));
                     hotelAdminData.set(j+1,temp);
-
                 }
 
             }

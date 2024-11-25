@@ -1,7 +1,6 @@
 package com.example.HotelBooking.controller;
 
 
-import com.example.HotelBooking.entity.UserData;
 import com.example.HotelBooking.exception.HotelBookingException;
 import com.example.HotelBooking.model.DataModel;
 import com.example.HotelBooking.service.UserRegisterService;

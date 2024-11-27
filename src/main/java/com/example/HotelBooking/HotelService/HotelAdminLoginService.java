@@ -19,10 +19,13 @@ public class HotelAdminLoginService {
 
         ArrayList<String>error=new ArrayList<>();
         ArrayList<String>errors=new ArrayList<>();
+        ArrayList<String>id=new ArrayList<>();
         error.add("invalid username or Password");
         errors.add("User Request Not Accepted. Please wait...Until Admin Accept Request");
 
         HotelAdminData hotelAdminData=hotelAdminRepository.loginAdminHotel(hotelAdminLoginModel.getEmail(),hotelAdminLoginModel.getPassword());
+        id.add(hotelAdminData.getId().toString());
+
         if(hotelAdminData == null){
             throw new HotelBookingException(error,"invalid Login");
 

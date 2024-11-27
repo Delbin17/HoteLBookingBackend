@@ -40,6 +40,7 @@ public class HotelRoomService {
 
     public HotelRoomDetails addRoom(HotelRoomDetails room) {
 
+
         if (roomRepository.existsByRoomNumber(room.getRoomNumber())) {
             List<String> error = new ArrayList<>();
             error.add("this room is alreday registered");

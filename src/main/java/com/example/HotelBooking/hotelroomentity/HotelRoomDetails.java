@@ -1,5 +1,6 @@
 package com.example.HotelBooking.hotelroomentity;
 
+import com.example.HotelBooking.HotelEntity.HotelAdminData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -22,14 +23,13 @@ public class HotelRoomDetails {
 
     @Column(name = "floor", nullable = false)
     @NotEmpty
-    @Size( min = 1, message = "floor cannot be empty")
+    @Size(min = 1, message = "floor cannot be empty")
     private String floor;
 
 
     @Column(name = "roomStatus", nullable = false)
     @NotEmpty
-    @Size( min = 3, message = "should be atleat one word")
-
+    @Size(min = 3, message = "should be atleat one word")
 
 
     private String roomStatus;
@@ -40,15 +40,18 @@ public class HotelRoomDetails {
 
     private String type;
 
-    @Column(name = "guestLimit",nullable = false)
+    @Column(name = "guestLimit", nullable = false)
     private Integer guestLimit;
 
     @Column(name = "description", length = 200)
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "hotel_admin_id",nullable = false)
+    private HotelAdminData hotelAdminData;
+
 
     @Column(name = "facilities", length = 1000)
-
     private String facilities;
 
     @ElementCollection
@@ -57,6 +60,20 @@ public class HotelRoomDetails {
     @Column(name = "image_path")
     private List<String> images;
 
+    public HotelRoomDetails(String roomNumber, String floor, String roomStatus, String type, Integer guestLimit, String description, HotelAdminData hotelAdminData, String facilities, List<String> images) {
+        this.roomNumber = roomNumber;
+        this.floor = floor;
+        this.roomStatus = roomStatus;
+        this.type = type;
+        this.guestLimit = guestLimit;
+        this.description = description;
+        this.hotelAdminData = hotelAdminData;
+        this.facilities = facilities;
+        this.images = images;
+    }
+
+    public HotelRoomDetails() {
+    }
 
     public Long getRoomId() {
         return roomId;
@@ -66,27 +83,27 @@ public class HotelRoomDetails {
         this.roomId = roomId;
     }
 
-    public String getRoomNumber() {
+    public @NotEmpty String getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(String roomNumber) {
+    public void setRoomNumber(@NotEmpty String roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public String getFloor() {
+    public @NotEmpty @Size(min = 1, message = "floor cannot be empty") String getFloor() {
         return floor;
     }
 
-    public void setFloor(String floor) {
+    public void setFloor(@NotEmpty @Size(min = 1, message = "floor cannot be empty") String floor) {
         this.floor = floor;
     }
 
-    public String getRoomStatus() {
+    public @NotEmpty @Size(min = 3, message = "should be atleat one word") String getRoomStatus() {
         return roomStatus;
     }
 
-    public void setRoomStatus(String roomStatus) {
+    public void setRoomStatus(@NotEmpty @Size(min = 3, message = "should be atleat one word") String roomStatus) {
         this.roomStatus = roomStatus;
     }
 
@@ -112,6 +129,14 @@ public class HotelRoomDetails {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public HotelAdminData getHotelAdminData() {
+        return hotelAdminData;
+    }
+
+    public void setHotelAdminData(HotelAdminData hotelAdminData) {
+        this.hotelAdminData = hotelAdminData;
     }
 
     public String getFacilities() {

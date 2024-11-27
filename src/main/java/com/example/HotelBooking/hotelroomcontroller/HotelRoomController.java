@@ -81,10 +81,14 @@ public class HotelRoomController {
        return roomService.getAllRooms();
   }
 
-    @GetMapping("/{roomId}")
-    public Optional<HotelRoomDetails> getRoomById(@PathVariable Long roomId) {
-        return roomService.getRoomById(roomId);
+    @GetMapping("/by/{id}")
+    public ResponseEntity<List<HotelRoomDetails>> getRoomsByAdminId(@PathVariable Long id) {
+        List<HotelRoomDetails> rooms = roomService.findRoomsByAdminId(id);
+        return rooms.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(rooms);
     }
+
+
+
 
     @PutMapping("/update/{roomId}")
     public HotelRoomDetails updateRoom(@PathVariable Long roomId,  @RequestParam("roomNumber") String roomNumber,

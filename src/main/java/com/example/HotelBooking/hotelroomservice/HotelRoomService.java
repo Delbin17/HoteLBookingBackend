@@ -41,11 +41,12 @@ public class HotelRoomService {
     public HotelRoomDetails addRoom(HotelRoomDetails room) {
 
 
-        if (roomRepository.existsByRoomNumber(room.getRoomNumber())) {
-            List<String> error = new ArrayList<>();
-            error.add("this room is alreday registered");
 
-            throw new HotelBookingException(error, "alreday registered");
+        if (roomRepository.existsByRoomNumberAndHotelAdminData_Id(
+                room.getRoomNumber(), room.getHotelAdminData().getId())) {
+
+            throw new RuntimeException("Room number " + room.getRoomNumber() +
+                    " already exists for the given hotel.");
         }
        return  roomRepository.save(room);
 
@@ -57,8 +58,8 @@ public class HotelRoomService {
         return roomRepository.findAll();
     }
 
-    public Optional<HotelRoomDetails> getRoomById(Long roomId) {
-        return roomRepository.findById(roomId);
+    public List<HotelRoomDetails> findRoomsByAdminId(Long id) {
+        return roomRepository.findByHotelAdminId(id);
     }
 
     public HotelRoomDetails updateRoom(Long roomId, HotelRoomDetails roomDetails)  {
@@ -98,8 +99,12 @@ public class HotelRoomService {
             throw new HotelBookingException(errors, "This room is not yet registered.");
         }
 
+
+
         roomRepository.deleteById(roomId);
     }
-    }
+
+
+}
 
 

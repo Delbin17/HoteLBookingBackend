@@ -46,7 +46,7 @@ public class HotelRoomController {
         ArrayList<String>error=new ArrayList<>();
         error.add("id null");
         if (adminId == null || adminId <= 0) { // Validate adminId
-            System.out.println(adminId);
+
             return ResponseHandle.registrationResponse(HttpStatus.BAD_REQUEST, "Invalid admin ID", null);
         }
 
